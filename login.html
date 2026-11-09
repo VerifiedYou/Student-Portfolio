@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>VerifiedYou | Sign up or log in</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap">
+<style>
+:root{--navy:#0f2a5c;--blue:#2258dc;--bg:#f5f7fb;--ink:#14224a;--muted:#6b7690;--line:#dfe5f0;--green:#14804a;--mint:#e6f5ec;--tint:#e8eefc}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:Inter,"Segoe UI",Arial,sans-serif;color:var(--ink);background:var(--bg);line-height:1.5}
+a{color:var(--blue)}
+a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid var(--blue);outline-offset:2px}
+svg{width:1em;height:1em;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.page{display:grid;grid-template-columns:1fr 1fr;min-height:100vh}
+
+/* left panel */
+.side{background:var(--navy);color:#fff;padding:40px 56px;display:flex;flex-direction:column;justify-content:space-between}
+.logo{display:flex;align-items:center;gap:10px;color:#fff;text-decoration:none;font-size:1.1rem}
+.logo i{width:30px;height:30px;border-radius:8px;background:#fff;color:var(--navy);display:grid;place-items:center}
+.side h1{font-size:clamp(1.9rem,3.2vw,2.6rem);font-weight:500;line-height:1.15;margin:28px 0 16px;max-width:420px}
+.side p{color:#c3cfee;max-width:420px;margin-bottom:22px}
+.side ul{list-style:none;font-size:.88rem}
+.side li{display:flex;gap:10px;align-items:center;margin-bottom:10px}
+.side li svg{color:#3ecf8e;font-size:1.1rem}
+.quote{background:rgba(255,255,255,.08);border-radius:14px;padding:18px;font-size:.85rem;color:#dbe5ff;max-width:440px}
+.quote b{display:block;margin-top:10px;color:#fff;font-weight:500}
+.quote small{color:#9db6f5}
+
+/* form */
+.main{display:flex;align-items:center;justify-content:center;padding:40px 24px}
+.box{background:#fff;border:1px solid var(--line);border-radius:18px;padding:32px;width:100%;max-width:440px}
+.tabs{display:flex;background:var(--bg);border-radius:10px;padding:4px;margin-bottom:22px}
+.tabs button{flex:1;border:0;background:transparent;padding:9px;border-radius:8px;font:inherit;font-size:.85rem;color:var(--muted);cursor:pointer}
+.tabs button.on{background:#fff;color:var(--navy);font-weight:600;box-shadow:0 1px 3px rgba(15,42,92,.12)}
+h2{font-size:1.5rem;font-weight:500;color:var(--navy)}
+.hint{color:var(--muted);font-size:.85rem;margin:4px 0 20px}
+label,.lbl{display:block;font-size:.8rem;font-weight:500;margin-bottom:6px}
+.field{margin-bottom:16px}
+input[type=text],input[type=email],input[type=password],select{width:100%;padding:11px 12px;border:1px solid var(--line);border-radius:8px;font:inherit;font-size:.9rem;background:#fff;color:var(--ink)}
+input:focus,select:focus{border-color:var(--blue)}
+.roles{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:16px}
+.roles label{margin:0;cursor:pointer}
+.roles input{position:absolute;opacity:0}
+.roles span{display:block;text-align:center;border:1px solid var(--line);border-radius:10px;padding:10px 4px;font-size:.78rem;color:var(--muted)}
+.roles input:checked+span{border-color:var(--blue);background:var(--tint);color:var(--blue);font-weight:600}
+.roles input:focus-visible+span{outline:3px solid var(--blue)}
+.check{display:flex;gap:8px;align-items:flex-start;font-size:.8rem;color:var(--muted);font-weight:400;margin-bottom:18px}
+.check input{margin-top:3px}
+.btn{width:100%;padding:12px;border-radius:8px;border:1px solid var(--blue);font:inherit;font-weight:500;font-size:.9rem;cursor:pointer}
+.btn-p{background:var(--blue);color:#fff}.btn-p:hover{background:var(--navy);border-color:var(--navy)}
+.btn-o{background:#fff;color:var(--blue);border-color:var(--line)}.btn-o:hover{border-color:var(--blue)}
+.or{display:flex;align-items:center;gap:12px;color:var(--muted);font-size:.75rem;margin:16px 0}
+.or::before,.or::after{content:"";flex:1;height:1px;background:var(--line)}
+.msg{display:none;margin-top:14px;padding:10px 12px;border-radius:8px;font-size:.82rem;background:var(--mint);color:var(--green)}
+.msg.err{background:#fdecec;color:#b3261e}
+.back{display:block;text-align:center;margin-top:18px;font-size:.8rem}
+.signup-only{display:block}.login .signup-only{display:none}
+
+@media(max-width:860px){
+  .page{grid-template-columns:1fr}
+  .side{padding:28px 24px;gap:20px}
+  .quote{display:none}
+}
+</style>
+</head>
+<body>
+<div class="page">
+
+  <aside class="side">
+    <div>
+      <a href="index.html" class="logo"><i><svg viewBox="0 0 24 24"><path d="M12 3l7 3v5c0 5-3 8-7 10-4-2-7-5-7-10V6z"/><path d="M9 12l2 2 4-4"/></svg></i>VerifiedYou</a>
+      <h1>Your achievements deserve trusted proof.</h1>
+      <p>Build one verified profile that employers can check in seconds.</p>
+      <ul>
+        <li><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M8 12l3 3 5-6"/></svg>Institution-backed verification</li>
+        <li><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M8 12l3 3 5-6"/></svg>Share with a link or QR code</li>
+        <li><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M8 12l3 3 5-6"/></svg>You control who sees what</li>
+      </ul>
+    </div>
+    <div class="quote">“Having my results and awards verified made my internship applications much easier.”
+      <b>Tariro Moyo</b><small>BSc Computer Engineering, Africa University</small></div>
+  </aside>
+
+  <main class="main">
+    <div class="box" id="box">
+      <div class="tabs" role="tablist">
+        <button type="button" class="on" id="tabUp" role="tab">Sign up</button>
+        <button type="button" id="tabIn" role="tab">Log in</button>
+      </div>
+
+      <h2 id="title">Create your account</h2>
+      <p class="hint" id="hint">Join as a student, institution, or employer.</p>
+
+      <form id="form" novalidate>
+        <div>
+          <div class="lbl">I am a</div>
+          <div class="roles">
+            <label><input type="radio" name="role" value="student" checked><span>Student</span></label>
+            <label><input type="radio" name="role" value="lecturer"><span>Lecturer / Institution</span></label>
+            <label><input type="radio" name="role" value="employer"><span>Employer</span></label>
+          </div>
+          </div><div class="signup-only"><div class="field"><label for="name">Full name</label><input type="text" id="name" placeholder="e.g. Tariro Moyo"></div>
+        </div>
+
+        <div class="field"><label for="email">Email</label><input type="email" id="email" placeholder="you@university.ac.zw" required></div>
+
+        <div class="signup-only">
+          <div class="field"><label for="inst">Institution or company</label><input type="text" id="inst" list="insts" placeholder="Start typing"><datalist id="insts"><option value="Africa University"><option value="University of Zimbabwe"><option value="NUST"><option value="Midlands State University"></datalist></div>
+        </div>
+
+        <div class="field"><label for="pw">Password</label><input type="password" id="pw" placeholder="At least 8 characters" required></div>
+
+        <label class="check signup-only"><input type="checkbox" id="terms"> I agree to the Terms and Privacy Policy.</label>
+
+        <button type="submit" class="btn btn-p" id="submit">Create account</button>
+        <div class="msg" id="msg" role="status"></div>
+      </form>
+
+      <div class="or">or</div>
+      <button type="button" class="btn btn-o" id="uni">Continue with university email</button>
+      <a href="index.html" class="back">← Back to home</a>
+    </div>
+  </main>
+</div>
+
+<script>
+  const box = document.getElementById('box');
+  const tabUp = document.getElementById('tabUp'), tabIn = document.getElementById('tabIn');
+  const title = document.getElementById('title'), hint = document.getElementById('hint');
+  const submit = document.getElementById('submit'), msg = document.getElementById('msg');
+  let mode = 'signup';
+
+  function setMode(m){
+    mode = m;
+    box.classList.toggle('login', m === 'login');
+    tabUp.classList.toggle('on', m === 'signup');
+    tabIn.classList.toggle('on', m === 'login');
+    title.textContent = m === 'signup' ? 'Create your account' : 'Welcome back';
+    hint.textContent = m === 'signup' ? 'Join as a student, institution, or employer.' : 'Log in to manage your verified profile.';
+    submit.textContent = m === 'signup' ? 'Create account' : 'Log in';
+    msg.style.display = 'none';
+  }
+  tabUp.onclick = () => setMode('signup');
+  tabIn.onclick = () => setMode('login');
+  if (location.hash === '#login') setMode('login');
+  ['lecturer','employer'].forEach(r => { if (location.hash === '#'+r) document.querySelector('input[value='+r+']').checked = true; });
+
+  function show(text, isError){
+    msg.textContent = text;
+    msg.className = 'msg' + (isError ? ' err' : '');
+    msg.style.display = 'block';
+  }
+
+  document.getElementById('form').addEventListener('submit', function(e){
+    e.preventDefault();
+    const email = document.getElementById('email').value.trim();
+    const pw = document.getElementById('pw').value;
+    if (!email.includes('@')) return show('Enter a valid email address.', true);
+    if (pw.length < 8) return show('Password must be at least 8 characters.', true);
+    if (mode === 'signup') {
+      if (!document.getElementById('name').value.trim()) return show('Enter your full name.', true);
+      if (!document.getElementById('terms').checked) return show('Please accept the Terms to continue.', true);
+    }
+    // TODO: connect to Supabase here (signUp / signInWithPassword)
+    const role = document.querySelector('input[name=role]:checked').value;
+    const key = role === 'student' ? 'vy_user' : 'vy_staff';
+    try {
+      const u = JSON.parse(localStorage.getItem(key)) || {};
+      if (mode === 'signup') { u.name = document.getElementById('name').value.trim(); u.inst = document.getElementById('inst').value.trim(); }
+      else if (!u.name) { u.name = email.split('@')[0]; }
+      u.email = email;
+      localStorage.setItem(key, JSON.stringify(u));
+      localStorage.setItem('vy_role', role);
+    } catch (err) {}
+    location.href = role === 'lecturer' ? 'institution.html' : role === 'employer' ? 'employer.html' : 'dashboard.html';
+  });
+
+  document.getElementById('uni').onclick = () => show('University email sign-in will be connected with Supabase.');
+</script>
+</body>
+</html>

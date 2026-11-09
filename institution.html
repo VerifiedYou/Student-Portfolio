@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Institution | VerifiedYou</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="institution.css">
+</head>
+<body>
+<div class="app">
+<aside>
+  <a class="brand" href="index.html"><svg viewBox="0 0 36 36" aria-hidden="true"><rect width="36" height="36" rx="9" fill="#12295A"/><path d="M18 7.5l8 3v6.2c0 5-3.3 8.6-8 10.8-4.7-2.2-8-5.800-8-10.800V10.500l8-3z" fill="none" stroke="#fff" stroke-width="2" stroke-linejoin="round"/><path d="M14.500 17.500l2.600 2.600 4.600-5" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>VerifiedYou</a>
+  <nav aria-label="Institution menu">
+    <a href="institution.html" class="on">Requests</a>
+    <a href="#history">History</a>
+  </nav>
+  <div class="who"><strong id="instName">Your institution</strong>Signed in as institution<br><button id="logout">Log out</button></div>
+</aside>
+<main>
+  <h1>Verification requests</h1>
+  <p class="sub">Confirm the achievements and records your students have submitted, or reject them with a note.</p>
+  <section class="stats" aria-label="Summary">
+    <div class="stat wait"><b id="sPending">0</b><span>Waiting for review</span></div>
+    <div class="stat"><b id="sApproved">0</b><span>Approved</span></div>
+    <div class="stat"><b id="sRejected">0</b><span>Rejected</span></div>
+    <div class="stat"><b id="sTotal">0</b><span>Total requests</span></div>
+  </section>
+  <div class="cols">
+    <section class="panel" aria-label="Request list">
+      <div class="bar">
+        <input id="q" type="search" placeholder="Search by student or achievement" aria-label="Search requests">
+        <button class="chip" data-f="all" aria-pressed="true">All</button>
+        <button class="chip" data-f="pending" aria-pressed="false">Pending</button>
+        <button class="chip" data-f="approved" aria-pressed="false">Approved</button>
+        <button class="chip" data-f="rejected" aria-pressed="false">Rejected</button>
+      </div>
+      <div class="list"><table>
+        <thead><tr><th>Request</th><th>Submitted</th><th>Status</th></tr></thead>
+        <tbody id="rows"></tbody>
+      </table></div>
+      <div class="empty" id="none" hidden>No requests match. Try a different search or filter.</div>
+    </section>
+    <aside class="panel detail" id="detail" aria-live="polite"></aside>
+  </div>
+</main>
+</div>
+<script src="app.js"></script>
+<script src="institution.js"></script>
+</body>
+</html>
