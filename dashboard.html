@@ -1,0 +1,43 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Dashboard | VerifiedYou</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="app.css"></head><body>
+<div class="app"><nav id="side" aria-label="Main"></nav>
+<main class="main">
+  <div class="top"><div><h1 id="hello">Good morning</h1><p class="sub">Here’s what’s happening with your verified profile.</p></div>
+    <a class="btn" href="add-achievement.html">+ Add achievement</a></div>
+  <div class="note" id="added" style="display:none">Achievement submitted. It shows as Pending until your institution reviews it.</div>
+  <div class="banner"><div class="ring" id="ring"><span id="pct"></span></div>
+    <div class="bt"><b id="bt"></b><p id="tip"></p><div class="bar"><div id="fill"></div></div></div>
+    <a class="btn w" href="profile.html">Complete profile</a></div>
+  <div class="sec"><h2>Verification status</h2><a href="requests.html">View all requests</a></div>
+  <div class="grid3">
+    <div class="sc"><div class="ic g" id="i1"></div><b id="nv">0</b><span>Verified achievements</span></div>
+    <div class="sc"><div class="ic y" id="i2"></div><b id="np">0</b><span>Pending achievements</span></div>
+    <div class="sc"><div class="ic r" id="i3"></div><b id="nr">0</b><span>Rejected achievements</span></div></div>
+  <div class="two">
+    <div class="card"><h2>Recent activity</h2><div id="list"></div><a href="achievements.html" style="color:var(--blue);font-size:.8rem">View all activity →</a></div>
+    <div class="act"><div class="sec"><h2>Useful next actions</h2></div>
+      <a href="add-achievement.html"><span class="ic" id="a1"></span><span><b>Add a new achievement</b><small>Keep your portfolio current</small></span><span class="go" id="g1"></span></a>
+      <a href="requests.html"><span class="ic" id="a2"></span><span><b>Follow up on requests</b><small id="fu"></small></span><span class="go" id="g2"></span></a>
+      <a href="profile.html"><span class="ic" id="a3"></span><span><b>Share your profile</b><small>Copy your public link or QR code</small></span><span class="go" id="g3"></span></a></div>
+  </div>
+</main></div>
+<script src="app.js"></script>
+<script>
+shell('dashboard.html');
+const a=all(),c=s=>a.filter(x=>x.s===s).length,h=new Date().getHours(),u=user();
+document.getElementById('hello').textContent=(h<12?'Good morning':h<18?'Good afternoon':'Good evening')+(u.name?', '+u.name.split(' ')[0]:'');
+['nv','np','nr'].forEach((id,i)=>document.getElementById(id).textContent=c(['verified','pending','rejected'][i]));
+[['i1','check'],['i2','clock'],['i3','x'],['a1','award'],['a2','send'],['a3','share'],['g1','chev'],['g2','chev'],['g3','chev']].forEach(p=>document.getElementById(p[0]).innerHTML=ico(p[1]));
+const s=strength();
+document.getElementById('pct').textContent=s.pct+'%';
+document.getElementById('ring').style.setProperty('--p',s.pct);
+document.getElementById('fill').style.width=s.pct+'%';
+document.getElementById('bt').textContent=s.pct>=70?'Your profile is looking strong':'Let’s build your profile';
+document.getElementById('tip').textContent=s.tip;
+document.getElementById('fu').textContent=c('pending')+' verification'+(c('pending')===1?' is':'s are')+' pending';
+const icon={verified:['check','Verified'],pending:['send','Verification request sent'],rejected:['x','Verification rejected']};
+document.getElementById('list').innerHTML=a.slice(0,5).map(x=>'<div class="ev"><span class="ic">'+ico(icon[x.s][0])+'</span><div><b>'+esc(x.t)+'</b><small>'+icon[x.s][1]+' · '+(x.at?ago(x.at):fmt(x.d))+'</small></div></div>').join('')||'<p class="sub" style="margin-bottom:10px">No activity yet. Add your first achievement to get started.</p>';
+if(location.search.includes('added=1'))document.getElementById('added').style.display='block';
+</script></body></html>

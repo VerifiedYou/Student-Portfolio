@@ -1,0 +1,26 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Settings | VerifiedYou</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="app.css"></head><body>
+<div class="app"><nav id="side" aria-label="Main"></nav>
+<main class="main">
+  <div class="top"><div><h1>Settings</h1><p class="sub">Your details as an employer on VerifiedYou.</p></div></div>
+  <form class="card" id="sf"><h2>Your details</h2>
+    <div class="f"><label for="nm">Your name</label><input id="nm" placeholder="e.g. Chipo Mutasa"></div>
+    <div class="cols">
+      <div class="f"><label for="co">Company</label><input id="co" placeholder="e.g. Acme Ltd"></div>
+      <div class="f"><label for="em">Work email</label><input type="email" id="em" placeholder="you@company.com"></div></div>
+    <button class="btn" type="submit">Save details</button> <span id="ok" class="sub"></span></form>
+  <div class="card"><h2>Your shortlist</h2><p class="sub" style="margin-bottom:12px">This removes your saved candidates and private notes from this browser.</p><button class="btn d" id="clr">Clear shortlist and notes</button></div>
+</main></div>
+<script src="app.js"></script>
+<script>
+shell('employer-settings.html');
+const $=i=>document.getElementById(i),s=staff();
+$('nm').value=s.name||'';$('co').value=s.inst||'';$('em').value=s.email||'';
+$('sf').onsubmit=e=>{e.preventDefault();
+  try{localStorage.setItem('vy_staff',JSON.stringify(Object.assign(staff(),{name:$('nm').value.trim(),inst:$('co').value.trim(),email:$('em').value.trim()})));$('ok').textContent='Saved.'}
+  catch(err){$('ok').textContent='Could not save. Your browser storage may be full or blocked.'}
+  shell('employer-settings.html')};
+$('clr').onclick=()=>{if(confirm('Clear your shortlist and private notes from this browser?')){try{localStorage.removeItem('vy_emp')}catch(e){}location.href='employer.html'}};
+</script></body></html>
