@@ -1,0 +1,60 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>My profile | VerifiedYou</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="app.css"></head><body>
+<div class="app"><nav id="side" aria-label="Main"></nav>
+<main class="main">
+  <div class="top"><div><h1>My public profile</h1><p class="sub">This is what employers see when you share your link.</p></div>
+    <div class="no-print"><button class="btn o" id="edit">Edit profile</button> <button class="btn o" id="copy">Copy profile link</button> <button class="btn" onclick="window.print()">Download PDF</button></div></div>
+
+  <div class="card no-print" id="editCard" style="display:none"><h2>Your details</h2>
+    <form id="pf">
+      <div class="f"><label for="ph">Profile photo</label><div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap"><span class="av js-av" style="width:56px;height:56px"></span><input type="file" id="ph" accept="image/*" style="width:auto;flex:1"><button type="button" class="btn o" id="rm">Remove</button></div></div>
+      <div class="f"><label for="fn">Full name</label><input id="fn" placeholder="Your full name"></div>
+      <div class="cols">
+        <div class="f"><label for="fp">Programme</label><input id="fp" placeholder="e.g. BSc Computer Engineering"></div>
+        <div class="f"><label for="fi">Institution</label><input id="fi" placeholder="e.g. Africa University"></div></div>
+      <div class="f"><label for="fy">Year of study</label><input id="fy" placeholder="e.g. Year 3"></div>
+      <div class="f"><label for="fa">About you</label><textarea id="fa" placeholder="A short summary of who you are and what you do."></textarea></div>
+      <div class="f"><label for="fc">Career interests (separate with commas)</label><input id="fc" placeholder="e.g. Machine learning, Cloud, Embedded systems"></div>
+      <button class="btn" type="submit">Save profile</button></form></div>
+
+  <div class="card"><div class="head"><div class="av js-av"></div>
+    <div><h2 class="js-name"></h2><p class="sub" id="line"></p><span id="vb" style="margin-top:6px;display:inline-block"></span></div></div></div>
+  <div class="card"><h2>About</h2><p id="about"></p>
+    <h2 style="margin-top:16px">Career interests</h2><div class="chips" id="chips"></div></div>
+  <div class="card"><h2>Achievements and projects</h2>
+    <div class="tabs no-print" id="tabs"><button class="on" data-f="all">All</button><button data-f="verified">Verified only</button><button data-f="pending">Pending</button></div>
+    <div id="list"></div></div>
+</main></div>
+<script src="app.js"></script>
+<script>
+const a=all();let f='all';
+function render(){
+  shell('profile.html');
+  const u=user();
+  document.getElementById('line').textContent=[u.program,u.inst,u.year].filter(Boolean).join(' · ')||'Add your programme and institution';
+  document.getElementById('vb').innerHTML=a.some(x=>x.s==='verified')?'<span class="b ok">✔ Has verified records</span>':'<span class="b wait">Not yet verified</span>';
+  document.getElementById('about').textContent=u.about||'Add a short summary about yourself.';
+  const ch=(u.interests||'').split(',').map(x=>x.trim()).filter(Boolean);
+  document.getElementById('chips').innerHTML=ch.map(x=>'<span class="chip">'+esc(x)+'</span>').join('')||'<p class="sub">Add your career interests.</p>';
+}
+function draw(){
+  const r=a.filter(x=>f==='all'||x.s===f);
+  document.getElementById('list').innerHTML=r.map(x=>'<div class="item">'+badge(x)+'<h3>'+esc(x.t)+'</h3><p>'+esc(x.n||'')+'</p><p style="margin-top:6px"><small>'+meta(x)+'</small></p></div>').join('')||'<p class="sub">Nothing here yet. <a href="add-achievement.html" style="color:var(--blue)">Add your first achievement</a>.</p>';
+}
+function fill(){const u=user();fn.value=u.name||'';fp.value=u.program||'';fi.value=u.inst||'';fy.value=u.year||'';fa.value=u.about||'';fc.value=u.interests||''}
+const card=document.getElementById('editCard');
+document.getElementById('edit').onclick=()=>{fill();card.style.display=card.style.display==='none'?'block':'none'};
+document.getElementById('pf').onsubmit=e=>{e.preventDefault();
+  setUser({name:fn.value.trim(),program:fp.value.trim(),inst:fi.value.trim(),year:fy.value.trim(),about:fa.value.trim(),interests:fc.value.trim()});
+  card.style.display='none';render()};
+document.getElementById('tabs').onclick=e=>{const b=e.target.closest('button');if(!b)return;f=b.dataset.f;
+  document.querySelectorAll('#tabs button').forEach(x=>x.classList.toggle('on',x===b));draw()};
+document.getElementById('copy').onclick=function(){
+  try{navigator.clipboard.writeText(location.href);this.textContent='Link copied'}catch(e){this.textContent='Copy from address bar'}};
+document.getElementById('ph').onchange=function(){const f=this.files[0];if(f)readPhoto(f,d=>{setUser({photo:d});render()})};
+document.getElementById('rm').onclick=()=>{setUser({photo:''});render()};
+render();draw();
+if(!user().name){fill();card.style.display='block'}
+</script></body></html>

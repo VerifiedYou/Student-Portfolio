@@ -1,0 +1,37 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Add achievement | VerifiedYou</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="app.css"></head><body>
+<div class="app"><nav id="side" aria-label="Main"></nav>
+<main class="main">
+  <div class="top"><div><h1>Add an achievement</h1><p class="sub">Add the details and proof, then send it for verification.</p></div>
+  </div>
+  <div class="two">
+  <form class="card" id="form" novalidate>
+    <div class="err" id="err" role="alert"></div>
+    <div class="f"><label for="cat">Category</label><select id="cat"><option>Award</option><option>Certificate</option><option>Competition</option><option>Project</option><option>Leadership</option><option>Volunteering</option><option>Experience</option></select></div>
+    <div class="f"><label for="title">Title</label><input id="title" placeholder="e.g. Winner, National AI Challenge"></div>
+    <div class="f"><label for="desc">Description</label><textarea id="desc" placeholder="What did you do or achieve?"></textarea></div>
+    <div class="cols">
+      <div class="f"><label for="date">Date</label><input type="date" id="date"></div>
+      <div class="f"><label for="ver">Who should verify it?</label><select id="ver"><option>Course lecturer</option><option>Head of department</option><option>Registrar</option><option>Institution</option></select></div></div>
+    <div class="f"><label for="file">Proof (certificate or letter)</label><input type="file" id="file" accept=".pdf,.png,.jpg,.jpeg"></div>
+    <div class="f"><label for="vis">Visibility</label><select id="vis"><option>Public</option><option>Shared by link only</option><option>Private</option></select></div>
+    <button class="btn" type="submit">Submit for verification</button>
+  </form>
+  <div class="card dark"><h2>What happens next</h2><ul><li>1. Your request is sent to the verifier.</li><li>2. They review your proof and approve or reject it.</li><li>3. Approved items show a Verified badge on your profile.</li></ul></div>
+  </div>
+</main></div>
+<script src="app.js"></script>
+<script>
+shell('achievements.html');
+document.getElementById('date').valueAsDate=new Date();
+document.getElementById('form').onsubmit=function(e){
+  e.preventDefault();
+  const t=document.getElementById('title').value.trim(),err=document.getElementById('err');
+  if(!t){err.textContent='Enter a title for your achievement.';err.style.display='block';return}
+  const a=all();
+  a.unshift({t:t,c:document.getElementById('cat').value,d:document.getElementById('date').value,s:'pending',by:'',n:document.getElementById('desc').value.trim(),at:Date.now(),f:(document.getElementById('file').files[0]||{}).name||''});
+  save(a);location.href='dashboard.html?added=1';
+};
+</script></body></html>

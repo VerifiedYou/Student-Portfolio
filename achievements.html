@@ -1,0 +1,17 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Achievements | VerifiedYou</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="app.css"></head><body>
+<div class="app"><nav id="side" aria-label="Main"></nav>
+<main class="main">
+  <div class="top"><div><h1>Achievements</h1><p class="sub">Everything you have added, with its verification status.</p></div><a class="btn" href="add-achievement.html">+ Add achievement</a></div>
+  <div class="card"><div class="tabs" id="tabs"><button class="on" data-f="all">All</button><button data-f="verified">Verified</button><button data-f="pending">Pending</button><button data-f="rejected">Rejected</button></div><div id="list"></div></div>
+</main></div>
+<script src="app.js"></script>
+<script>
+shell('achievements.html');
+const a=all();let f='all';
+function draw(){document.getElementById('list').innerHTML=listHTML(a.filter(x=>f==='all'||x.s===f),'Nothing here yet. Add your first achievement.')}
+document.getElementById('tabs').onclick=e=>{const b=e.target.closest('button');if(!b)return;f=b.dataset.f;document.querySelectorAll('#tabs button').forEach(x=>x.classList.toggle('on',x===b));draw()};
+draw();
+</script></body></html>
